@@ -1,32 +1,35 @@
+
 <ion-content [fullscreen]="true" class="dashboard-page">
   <div class="dashboard-wrapper">
 
+    <!-- HEADER -->
     <header class="top-bar">
       <a class="brand" routerLink="/home">
         <span class="brand-icon">G</span>
         <span>GEOPOLITICS</span>
       </a>
 
-<div class="header-actions">
-  <a class="history-link" routerLink="/game-history">
-    GAME HISTORY
-  </a>
+      <div class="header-actions">
+        <a class="history-link" routerLink="/game-history">
+          GAME HISTORY
+        </a>
 
-  <button class="logout-button" (click)="logout()">
-    SIGN OUT
-  </button>
-</div>
+        <button class="logout-button" (click)="logout()">
+          SIGN OUT
+        </button>
+      </div>
     </header>
 
-
+    <!-- DASHBOARD CONTENT -->
     <main class="dashboard-content">
+
       <div class="eyebrow">
         <span class="status-dot"></span>
         COMMAND CENTRE
       </div>
 
       <h1>
-        YOUR WORLD. <br/>
+        YOUR WORLD. <br />
         <span>YOUR RULES.</span>
       </h1>
 
@@ -35,6 +38,7 @@
         Build your power, command your armies, and shape the future.
       </p>
 
+      <!-- CAMPAIGN CARD -->
       <section class="campaign-card">
         <div class="card-label">YOUR NEXT MOVE</div>
 
@@ -42,7 +46,7 @@
 
         <p>
           Choose your nation, strengthen your military, and compete for control
-          of the world
+          of the world.
         </p>
 
         <ion-button
@@ -55,7 +59,88 @@
         </ion-button>
       </section>
 
+      <!-- HOW TO PLAY -->
+      <section class="how-to-play">
+
+        <div class="guide-heading">
+          <div>
+            <div class="card-label">FIELD MANUAL</div>
+            <h2>HOW TO PLAY</h2>
+          </div>
+
+          <span class="guide-tag">4 STEPS</span>
+        </div>
+
+        <p class="guide-description">
+          New to the battlefield? Here's what you need to know.
+        </p>
+
+        <div class="guide-steps">
+
+          <!-- STEP 1 -->
+          <div class="guide-step">
+            <span class="step-number">01</span>
+
+            <div>
+              <h3>Choose your nation</h3>
+              <p>
+                Select a country to represent and begin your campaign.
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="guide-step">
+            <span class="step-number">02</span>
+
+            <div>
+              <h3>Command your military</h3>
+              <p>
+                Your country's population determines your initial military strength.
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="guide-step">
+            <span class="step-number">03</span>
+
+            <div>
+              <h3>Attack and conquer</h3>
+              <p>
+                Make strategic attacks against other nations to expand your territory.
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="guide-step">
+            <span class="step-number">04</span>
+
+            <div>
+              <h3>Expand your power</h3>
+              <p>
+                Receive reinforcements from the second round onwards based on the countries you control.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- GAME OBJECTIVE -->
+        <div class="guide-objective">
+          <span class="objective-label">YOUR OBJECTIVE</span>
+
+          <p>
+            Expand your territory, outmanoeuvre your opponents and dominate the world.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- DASHBOARD FACTS -->
       <div class="dashboard-facts">
+
         <div>
           <strong>10</strong>
           <span>NATIONS TO CONTROL</span>
@@ -70,11 +155,15 @@
           <strong>Infinite</strong>
           <span>STRATEGIES TO EXPLORE</span>
         </div>
+
       </div>
+
     </main>
 
+    <!-- FOOTER -->
     <footer class="dashboard-footer">
       EVERY MOVE HAS CONSEQUENCES
     </footer>
+
   </div>
 </ion-content>

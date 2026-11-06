@@ -260,3 +260,438 @@ h1 span {
 .history-link:hover {
   background: rgba(205, 166, 92, 0.12);
 }
+
+
+
+.dashboard-page {
+  --background: #090d14;
+  color: #ffffff;
+}
+
+.dashboard-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 7%;
+}
+
+/* HEADER */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: #c7a66a;
+  color: #090d14;
+  font-size: 19px;
+  font-weight: 900;
+  border-radius: 5px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.history-link {
+  color: #aeb5c2;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: color 0.2s ease;
+}
+
+.history-link:hover {
+  color: #c7a66a;
+}
+
+.logout-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 10px 17px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #c7a66a;
+  border-color: #c7a66a;
+  color: #090d14;
+}
+
+/* MAIN CONTENT */
+
+.dashboard-content {
+  width: 100%;
+  max-width: 850px;
+  margin: 75px auto 55px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #c7a66a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #70c69a;
+  box-shadow: 0 0 10px rgba(112, 198, 154, 0.6);
+}
+
+.dashboard-content h1 {
+  margin: 22px 0;
+  font-size: clamp(42px, 7vw, 68px);
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: #ffffff;
+}
+
+.dashboard-content h1 span {
+  color: #c7a66a;
+}
+
+.dashboard-description {
+  max-width: 550px;
+  color: #9ba3b1;
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 35px;
+}
+
+/* CAMPAIGN CARD */
+
+.campaign-card {
+  padding: 32px;
+  background: linear-gradient(
+    135deg,
+    rgba(199, 166, 106, 0.12),
+    rgba(255, 255, 255, 0.025)
+  );
+  border: 1px solid rgba(199, 166, 106, 0.3);
+  border-radius: 10px;
+}
+
+.card-label {
+  color: #c7a66a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.campaign-card h2 {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 15px 0 10px;
+}
+
+.campaign-card p {
+  color: #9ba3b1;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+.primary-button {
+  --background: #c7a66a;
+  --background-hover: #d5b77e;
+  --color: #090d14;
+  --border-radius: 5px;
+  --box-shadow: none;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  height: 48px;
+}
+
+/* HOW TO PLAY */
+
+.how-to-play {
+  margin-top: 35px;
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.guide-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.guide-heading h2 {
+  margin: 9px 0 0;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.guide-tag {
+  color: #c7a66a;
+  border: 1px solid rgba(199, 166, 106, 0.4);
+  padding: 7px 11px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.guide-description {
+  color: #9299a6;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 12px 0 25px;
+}
+
+.guide-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px 30px;
+}
+
+.guide-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.step-number {
+  flex-shrink: 0;
+  color: #c7a66a;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.guide-step h3 {
+  margin: 0 0 7px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.guide-step p {
+  margin: 0;
+  color: #9299a6;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.guide-objective {
+  margin-top: 27px;
+  padding: 16px;
+  background: rgba(199, 166, 106, 0.07);
+  border-left: 3px solid #c7a66a;
+}
+
+.objective-label {
+  color: #c7a66a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.guide-objective p {
+  margin: 8px 0 0;
+  color: #d5d8df;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* DASHBOARD FACTS */
+
+.dashboard-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 45px;
+  padding: 25px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashboard-facts strong {
+  color: #c7a66a;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.dashboard-facts span {
+  color: #9299a6;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* FOOTER */
+
+.dashboard-footer {
+  margin-top: auto;
+  padding: 25px 0;
+  text-align: center;
+  color: #68717f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* TABLET */
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    padding: 0 5%;
+  }
+
+  .dashboard-content {
+    margin-top: 55px;
+  }
+
+  .dashboard-content h1 {
+    font-size: 48px;
+  }
+
+  .campaign-card {
+    padding: 25px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .dashboard-wrapper {
+    padding: 0 20px;
+  }
+
+  .top-bar {
+    padding: 20px 0;
+  }
+
+  .brand {
+    font-size: 11px;
+    letter-spacing: 2px;
+    gap: 8px;
+  }
+
+  .brand-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .history-link {
+    font-size: 9px;
+    letter-spacing: 0.5px;
+  }
+
+  .logout-button {
+    padding: 9px 10px;
+    font-size: 9px;
+  }
+
+  .dashboard-content {
+    margin-top: 45px;
+  }
+
+  .dashboard-content h1 {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+  }
+
+  .dashboard-description {
+    font-size: 13px;
+  }
+
+  .campaign-card {
+    padding: 22px;
+  }
+
+  .campaign-card h2 {
+    font-size: 21px;
+  }
+
+  .how-to-play {
+    padding: 20px;
+    margin-top: 28px;
+  }
+
+  .guide-heading h2 {
+    font-size: 19px;
+  }
+
+  .guide-steps {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .dashboard-facts {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  .dashboard-facts div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dashboard-facts strong {
+    font-size: 23px;
+  }
+
+  .dashboard-facts span {
+    text-align: right;
+  }
+}

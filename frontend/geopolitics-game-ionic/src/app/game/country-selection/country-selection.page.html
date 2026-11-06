@@ -1,16 +1,39 @@
-<ion-content [fullscreen]="true" class="country-selection-page">
-  <div class="page-wrapper">
 
-    <header class="top-bar">
-      <a class="brand" routerLink="/dashboard">
-        <span class="brand-icon">G</span>
-        <span>GEOPOLITICS</span>
+<ion-header class="selection-header">
+  <header class="top-bar">
+
+    <a class="brand" routerLink="/home">
+      <span class="brand-icon">G</span>
+      <span>GEOPOLITICS</span>
+    </a>
+
+    <div class="header-actions">
+
+      <a class="nav-link" routerLink="/dashboard">
+        DASHBOARD
+      </a>
+
+      <a class="nav-link" routerLink="/game-history">
+        GAME HISTORY
       </a>
 
       <span class="step-label">STEP 01 / 02</span>
-    </header>
+
+      <button class="logout-button" (click)="logout()">
+        SIGN OUT
+      </button>
+
+    </div>
+
+  </header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="country-selection-page">
+
+  <div class="page-wrapper">
 
     <main class="selection-content">
+
       <div class="eyebrow">
         <span class="status-dot"></span>
         CAMPAIGN SETUP
@@ -31,11 +54,13 @@
         <strong>{{ countries().length }}</strong>
       </div>
 
+      <!-- Loading state -->
       <div *ngIf="isLoading()" class="loading-state">
         <ion-spinner name="crescent"></ion-spinner>
         <p>Loading available nations...</p>
       </div>
 
+      <!-- Error state -->
       <div *ngIf="!isLoading() && errorMessage()" class="error-state">
         <p>{{ errorMessage() }}</p>
 
@@ -44,6 +69,188 @@
         </ion-button>
       </div>
 
+      <!-- Country browser -->
+      <section
+        *ngIf="!isLoading() && !errorMessage() && countries().length > 0"
+        class="country-browser"
+      >
+
+        <div class="browser-heading">
+          <div>
+            <h2>EXPLORE NATIONS</h2>
+            <p>Search, filter and compare available countries.</p>
+          </div>
+
+          <span class="result-count">
+            {{ filteredCountries().length }} RESULTS
+          </span>
+        </div>
+
+        <!-- Search and filters -->
+        <div class="filter-controls">
+
+          <!-- Search -->
+          <ion-searchbar
+            placeholder="Search countries..."
+            [value]="searchTerm()"
+            (ionInput)="onSearchChange($event)"
+            [debounce]="200"
+            class="country-search"
+          ></ion-searchbar>
+
+          <!-- Continent filter -->
+          <div class="filter-field">
+            <label>CONTINENT</label>
+
+            <ion-select
+              interface="popover"
+              placeholder="All continents"
+              [value]="selectedContinent()"
+              (ionChange)="onContinentChange($event)"
+              class="filter-select"
+            >
+              <ion-select-option value="">
+                All continents
+              </ion-select-option>
+
+              <ion-select-option
+                *ngFor="let continent of continents()"
+                [value]="continent"
+              >
+                {{ continent }}
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+          <!-- Population filter -->
+          <div class="filter-field">
+            <label>POPULATION RANGE</label>
+
+            <ion-select
+              interface="popover"
+              placeholder="All populations"
+              [value]="selectedPopulationRange()"
+              (ionChange)="onPopulationChange($event)"
+              class="filter-select"
+            >
+              <ion-select-option value="">
+                All populations
+              </ion-select-option>
+
+              <ion-select-option value="small">
+                Small (Below 20M)
+              </ion-select-option>
+
+              <ion-select-option value="medium">
+                Medium (20M - 100M)
+              </ion-select-option>
+
+              <ion-select-option value="large">
+                Large (Above 100M)
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+          <!-- Sorting -->
+          <div class="filter-field">
+            <label>SORT BY</label>
+
+            <ion-select
+              interface="popover"
+              [value]="sortBy()"
+              (ionChange)="onSortChange($event)"
+              class="filter-select"
+            >
+              <ion-select-option value="nameAsc">
+                Name (A - Z)
+              </ion-select-option>
+
+              <ion-select-option value="nameDesc">
+                Name (Z - A)
+              </ion-select-option>
+
+              <ion-select-option value="populationDesc">
+                Population (Highest first)
+              </ion-select-option>
+
+              <ion-select-option value="populationAsc">
+                Population (Lowest first)
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+          <!-- Reset filters -->
+          <ion-button
+            fill="outline"
+            class="reset-button"
+            (click)="clearFilters()"
+          >
+            RESET
+          </ion-button>
+
+        </div>
+
+        <!-- Country cards -->
+        <section
+          *ngIf="filteredCountries().length > 0"
+          class="country-grid"
+        >
+
+          <ion-card
+            *ngFor="let country of filteredCountries()"
+            class="country-card"
+            [class.disabled]="isCreatingGame()"
+            (click)="selectCountry(country)"
+          >
+            <ion-card-content>
+
+              <div class="country-top">
+                <span class="country-indicator"></span>
+                <span class="continent">{{ country.continent }}</span>
+              </div>
+
+              <h2>{{ country.name }}</h2>
+
+              <div class="country-population">
+                <span>POPULATION</span>
+
+                <strong>
+                  {{ country.populationMillions | number:'1.0-1' }}M
+                </strong>
+              </div>
+
+              <div class="select-label">
+                SELECT NATION
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+
+        </section>
+
+        <!-- No matching countries -->
+        <div
+          *ngIf="filteredCountries().length === 0"
+          class="empty-state"
+        >
+          <h2>NO NATIONS FOUND</h2>
+
+          <p>
+            No countries match your search or selected filters.
+            Try changing your search or filters.
+          </p>
+
+          <ion-button
+            class="primary-button"
+            (click)="clearFilters()"
+          >
+            CLEAR FILTERS
+          </ion-button>
+        </div>
+
+      </section>
+
+      <!-- No countries available -->
       <div
         *ngIf="!isLoading() && !errorMessage() && countries().length === 0"
         class="empty-state"
@@ -51,37 +258,12 @@
         No countries are currently available.
       </div>
 
-      <section
-        *ngIf="!isLoading() && !errorMessage() && countries().length > 0"
-        class="country-grid"
-      >
-        <ion-card
-          *ngFor="let country of countries()"
-          class="country-card"
-          [class.disabled]="isCreatingGame()"
-          (click)="selectCountry(country)"
-        >
-          <ion-card-content>
-            <div class="country-top">
-              <span class="country-indicator"></span>
-              <span class="continent">{{ country.continent }}</span>
-            </div>
-
-            <h2>{{ country.name }}</h2>
-
-            <div class="country-population">
-              <span>POPULATION</span>
-              <strong>{{ country.populationMillions | number:'1.0-1' }}M</strong>
-            </div>
-
-            <div class="select-label">SELECT NATION</div>
-          </ion-card-content>
-        </ion-card>
-      </section>
     </main>
 
     <footer class="page-footer">
       EVERY MOVE HAS CONSEQUENCES.
     </footer>
+
   </div>
+
 </ion-content>

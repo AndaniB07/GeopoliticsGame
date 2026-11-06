@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: 'https://geopolitics-game-api-cydhaqgfcpbub9d0.centralindia-01.azurewebsites.net/api'
+  production: false,
+  apiUrl: 'http://localhost:5058/api'
 };

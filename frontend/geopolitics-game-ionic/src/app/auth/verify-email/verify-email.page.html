@@ -1,0 +1,86 @@
+
+<ion-content class="verification-content">
+
+  <div class="verification-container">
+
+    <div class="verification-card">
+
+      <div class="logo">
+        <span class="logo-icon">G</span>
+        <span>GEOPOLITICS</span>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="isLoading()" class="status-section">
+
+        <ion-spinner name="crescent"></ion-spinner>
+
+        <h2>Verifying your email...</h2>
+
+        <p>
+          Please wait while we confirm your email address.
+        </p>
+
+      </div>
+
+      <!-- Verification Successful -->
+      <div *ngIf="!isLoading() && isVerified()" class="status-section">
+
+        <div class="status-icon success">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+
+        <h1>Email Verified!</h1>
+
+        <p>
+          Your email address has been successfully verified.
+          Your Geopolitics Game account is now ready.
+        </p>
+
+        <ion-button expand="block" (click)="goToLogin()">
+          Continue to Login
+        </ion-button>
+
+      </div>
+
+      <!-- Verification Failed -->
+      <div *ngIf="!isLoading() && !isVerified()" class="status-section">
+
+        <div class="status-icon error">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </div>
+
+        <h1>Verification Failed</h1>
+
+        <p>{{ errorMessage() }}</p>
+
+        <!-- Resend Success Message -->
+        <p class="success-message" *ngIf="successMessage()">
+          {{ successMessage() }}
+        </p>
+
+        <ion-button
+          expand="block"
+          (click)="resendVerification()"
+          [disabled]="isLoading()">
+
+          Resend Verification Email
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="goToLogin()">
+
+          Back to Login
+
+        </ion-button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

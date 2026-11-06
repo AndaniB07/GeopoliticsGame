@@ -23,12 +23,33 @@ export const routes: Routes = [
       )
   },
   {
-  path: 'dashboard',
-  canActivate: [authGuard],
-  loadComponent: () =>
-    import('./dashboard/dashboard.page').then(
-      (m) => m.DashboardPage
-    )
+    path: 'auth/forgot-password',
+    loadComponent: () =>
+      import('./auth/forgot-password/forgot-password.page').then(
+        (m) => m.ForgotPasswordPage
+      )
+  },
+  {
+    path: 'verify-email',
+    loadComponent: () =>
+      import('./auth/verify-email/verify-email.page').then(
+        (m) => m.VerifyEmailPage
+      )
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./auth/reset-password/reset-password.page').then(
+        (m) => m.ResetPasswordPage
+      )
+  },
+  {
+    path: 'dashboard',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./dashboard/dashboard.page').then(
+        (m) => m.DashboardPage
+      )
   },
   {
     path: 'game/country-selection',
@@ -37,7 +58,7 @@ export const routes: Routes = [
       import('./game/country-selection/country-selection.page').then(
         (m) => m.CountrySelectionPage
       )
-    },
+  },
   {
     path: 'game/campaign/:id',
     loadComponent: () =>
@@ -48,17 +69,19 @@ export const routes: Routes = [
   {
     path: 'game-history',
     canActivate: [authGuard],
-    loadComponent: () => import('./game/game-history/game-history.page').then( m => m.GameHistoryPage)
+    loadComponent: () =>
+      import('./game/game-history/game-history.page').then(
+        (m) => m.GameHistoryPage
+      )
   },
-{
-  path: 'game/statistics/:id',
-  canActivate: [authGuard],
-  loadComponent: () =>
-    import('./game/statistics/statistics.page').then(
-      (m) => m.StatisticsPage
-    )
-},
-
+  {
+    path: 'game/statistics/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./game/statistics/statistics.page').then(
+        (m) => m.StatisticsPage
+      )
+  },
   {
     path: '',
     redirectTo: 'home',

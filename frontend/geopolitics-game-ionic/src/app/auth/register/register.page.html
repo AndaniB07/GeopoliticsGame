@@ -1,90 +1,176 @@
+
 <ion-content [fullscreen]="true" class="auth-page">
+
   <div class="auth-container">
+
     <a class="brand" routerLink="/home">
       <span class="brand-icon">G</span>
       <span>GEOPOLITICS</span>
     </a>
 
     <div class="auth-card">
-      <p class="eyebrow">YOUR CAMPAIGN BEGINS HERE</p>
 
-      <h1>Create your account</h1>
+      <p class="eyebrow">JOIN THE CAMPAIGN</p>
 
-      <p class="subtitle">
-        Establish your identity and prepare to lead a nation
+      <h1>Create Account</h1>
+
+      <p class="auth-description">
+        Create your account and begin shaping the world.
       </p>
 
       <form (ngSubmit)="register()">
 
-        <ion-label position="stacked">Full Name</ion-label>
-        <ion-input
-          name="fullName"
-          type="text"
-          placeholder="Enter your full name"
-          [(ngModel)]="fullName"
-          required
-        ></ion-input>
+        <!-- Full name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
 
-        <ion-label position="stacked">Username</ion-label>
-        <ion-input 
-          name="username"
-          type="text"
-          placeholder="Choose a username"
-          [(ngModel)]="username"
-          required
-        ></ion-input>
+          <ion-input
+            id="fullName"
+            name="fullName"
+            type="text"
+            placeholder="Enter your full name"
+            [(ngModel)]="fullName"
+            required>
+          </ion-input>
+        </div>
 
-        <ion-label position="stacked">Email Address</ion-label>
-        <ion-input
-          name="email"
-          type="email"
-          placeholder="you@example.com"
-          [(ngModel)]="email"
-          required
-        ></ion-input>
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username">Username</label>
 
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input
-          name="password"
-          type="password"
-          placeholder="Create a password"
-          [(ngModel)]="password"
-          required
-          minlength="8"
-        ></ion-input>
+          <ion-input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Choose a username"
+            [(ngModel)]="username"
+            required>
+          </ion-input>
+        </div>
 
-        <ion-label position="stacked">Confirm Password</ion-label>
-        <ion-input 
-          name="confirmPassword"
-          type="password"
-          placeholder="Re-enter your password"
-          [(ngModel)]="confirmPassword"
-          required
-          minlength="8"
-        ></ion-input>
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
 
+          <ion-input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email address"
+            [ngModel]="email"
+            (ngModelChange)="email = $event; validateEmail()"
+            required>
+          </ion-input>
 
-<ion-button
-  type="submit"
-  expand="block"
-  class="primary-button"
-  [disabled]="isLoading"
->
-  {{ isLoading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT' }}
-  <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
-</ion-button>
+          <p class="validation-error" *ngIf="emailError()">
+            {{ emailError() }}
+          </p>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <ion-input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Create a password"
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event); validatePassword()"
+            required>
+          </ion-input>
+        </div>
+
+        <!-- Password requirements -->
+        <div class="password-requirements">
+
+          <p class="requirements-title">
+            Your password must contain:
+          </p>
+
+          <div [class.requirement-met]="passwordRequirements().length">
+            <ion-icon
+              [name]="passwordRequirements().length ? 'checkmark-circle' : 'ellipse-outline'">
+            </ion-icon>
+            At least 8 characters
+          </div>
+
+          <div [class.requirement-met]="passwordRequirements().uppercase">
+            <ion-icon
+              [name]="passwordRequirements().uppercase ? 'checkmark-circle' : 'ellipse-outline'">
+            </ion-icon>
+            One uppercase letter (A-Z)
+          </div>
+
+          <div [class.requirement-met]="passwordRequirements().lowercase">
+            <ion-icon
+              [name]="passwordRequirements().lowercase ? 'checkmark-circle' : 'ellipse-outline'">
+            </ion-icon>
+            One lowercase letter (a-z)
+          </div>
+
+          <div [class.requirement-met]="passwordRequirements().number">
+            <ion-icon
+              [name]="passwordRequirements().number ? 'checkmark-circle' : 'ellipse-outline'">
+            </ion-icon>
+            One number (0-9)
+          </div>
+
+          <div [class.requirement-met]="passwordRequirements().symbol">
+            <ion-icon
+              [name]="passwordRequirements().symbol ? 'checkmark-circle' : 'ellipse-outline'">
+            </ion-icon>
+            One special character (e.g. @, #, !)
+          </div>
+
+        </div>
+
+        <!-- Confirm password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+
+          <ion-input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm your password"
+            [ngModel]="confirmPassword()"
+            (ngModelChange)="confirmPassword.set($event); validateConfirmPassword()"
+            required>
+          </ion-input>
+
+          <p class="validation-error" *ngIf="confirmPasswordError()">
+            {{ confirmPasswordError() }}
+          </p>
+        </div>
+
+        <!-- Submit -->
+        <ion-button
+          type="submit"
+          expand="block"
+          class="auth-button"
+          [disabled]="isLoading()">
+
+          <ng-container *ngIf="!isLoading(); else loadingTemplate">
+            Create Account
+          </ng-container>
+
+          <ng-template #loadingTemplate>
+            Creating Account...
+          </ng-template>
+
+        </ion-button>
 
       </form>
 
-
-      <p class="auth-switch">
+      <div class="auth-footer">
         Already have an account?
-        <a routerLink="/auth/login">Sign in</a>
-      </p>
+        <a routerLink="/auth/login">Sign In</a>
+      </div>
+
     </div>
 
-    <a class="back-link" routerLink="/home">
-      Back to home
-    </a>
   </div>
+
 </ion-content>

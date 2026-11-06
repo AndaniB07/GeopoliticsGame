@@ -1,5 +1,6 @@
 
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
@@ -18,6 +19,7 @@ import { AuthService } from '../../services/auth';
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     RouterLink,
     IonContent,
@@ -28,9 +30,17 @@ import { AuthService } from '../../services/auth';
   ]
 })
 export class LoginPage {
+
+  // Form values
   usernameOrEmail = '';
   password = '';
-  isLoading = false;
+
+  // Reactive state using Angular Signals
+  isLoading = signal(false);
+  isResending = signal(false);
+
+  errorMessage = signal('');
+  requiresVerification = signal(false);
 
   constructor(
     private authService: AuthService,
@@ -39,49 +49,178 @@ export class LoginPage {
   ) {}
 
   async login(): Promise<void> {
-    if (!this.usernameOrEmail.trim() || !this.password) {
-      await this.showToast(
-        'Please enter your username or email and password.'
+
+    this.clearErrors();
+
+    const loginValue = this.usernameOrEmail.trim();
+
+    if (!loginValue || !this.password.trim()) {
+
+      this.errorMessage.set(
+        'Please enter both your username or email and your password.'
       );
+
       return;
     }
 
-    if (this.isLoading) {
+    if (this.isLoading()) {
       return;
     }
 
-    this.isLoading = true;
+    this.isLoading.set(true);
 
     this.authService.login({
-      usernameOrEmail: this.usernameOrEmail.trim(),
+      usernameOrEmail: loginValue,
       password: this.password
     }).subscribe({
-      next: async () => {
-        this.isLoading = false;
 
-        await this.showToast('Login successful. Welcome back!');
+      next: async () => {
+
+        this.isLoading.set(false);
+
+        await this.showToast(
+          'Login successful. Welcome back!',
+          'success'
+        );
 
         await this.router.navigate(['/dashboard']);
+
       },
+
       error: async (error) => {
-        this.isLoading = false;
+
+        this.isLoading.set(false);
 
         const message =
-          error.error?.message ??
-          'Login failed. Check your details and try again.';
+          error.error?.message ||
+          error.message ||
+          'Login failed. Please try again.';
 
-        await this.showToast(message);
+        const lowerMessage = message.toLowerCase();
+
+        // Email verification required
+        if (
+          error.status === 403 ||
+          lowerMessage.includes('verify your email') ||
+          lowerMessage.includes('email address before logging in')
+        ) {
+
+          this.requiresVerification.set(true);
+
+          this.errorMessage.set(
+            'Please verify your email address before logging in.'
+          );
+
+          console.log(
+            'VERIFICATION REQUIRED:',
+            this.requiresVerification()
+          );
+
+          await this.showToast(
+            this.errorMessage(),
+            'warning'
+          );
+
+          return;
+        }
+
+        // Incorrect login details
+        if (error.status === 401) {
+
+          this.errorMessage.set(
+            'Incorrect username/email or password. Please try again.'
+          );
+
+          await this.showToast(
+            this.errorMessage(),
+            'danger'
+          );
+
+          return;
+        }
+
+        this.errorMessage.set(message);
+
+        await this.showToast(
+          message,
+          'danger'
+        );
+
       }
+
     });
+
   }
 
-  private async showToast(message: string): Promise<void> {
+  isEmailAddress(): boolean {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+      this.usernameOrEmail.trim()
+    );
+
+  }
+
+  resendVerification(): void {
+
+    if (!this.isEmailAddress() || this.isResending()) {
+      return;
+    }
+
+    this.isResending.set(true);
+
+    this.authService.resendVerification(
+      this.usernameOrEmail.trim()
+    ).subscribe({
+
+      next: async () => {
+
+        this.isResending.set(false);
+
+        await this.showToast(
+          'If your account is unverified, a new verification email has been sent.',
+          'success'
+        );
+
+      },
+
+      error: async () => {
+
+        this.isResending.set(false);
+
+        await this.showToast(
+          'Unable to resend the verification email. Please try again.',
+          'danger'
+        );
+
+      }
+
+    });
+
+  }
+
+  clearErrors(): void {
+
+    this.errorMessage.set('');
+    this.requiresVerification.set(false);
+
+  }
+
+  private async showToast(
+    message: string,
+    color: string
+  ): Promise<void> {
+
     const toast = await this.toastController.create({
+
       message,
-      duration: 3000,
-      position: 'bottom'
+      duration: 4000,
+      position: 'bottom',
+      color
+
     });
 
     await toast.present();
+
   }
+
 }

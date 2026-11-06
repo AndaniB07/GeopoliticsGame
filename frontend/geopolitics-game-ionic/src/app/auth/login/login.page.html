@@ -1,12 +1,17 @@
+
 <ion-content [fullscreen]="true" class="auth-page">
+
   <div class="auth-container">
+
+    <!-- Brand -->
     <a class="brand" routerLink="/home">
       <span class="brand-icon">G</span>
       <span>GEOPOLITICS</span>
     </a>
 
     <div class="auth-card">
-      <p class="eyebrow"> WELCOME BACK, COMMANDER</p>
+
+      <p class="eyebrow">WELCOME BACK, COMMANDER</p>
 
       <h1>Sign in</h1>
 
@@ -14,48 +19,159 @@
         Return to your campaign and continue your fight for global control.
       </p>
 
-      <form (ngSubmit)="login()">
+      <!-- Login Form -->
+      <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
 
-        <ion-label position="stacked">Username or email address</ion-label>
+        <!-- Username or Email -->
+        <ion-label position="stacked">
+          Username or email address
+        </ion-label>
+
         <ion-input
           name="usernameOrEmail"
           type="text"
           placeholder="Enter your username or email"
           [(ngModel)]="usernameOrEmail"
           required
-        ></ion-input>
+          #usernameInput="ngModel"
+          (ionInput)="clearErrors()">
+        </ion-input>
 
-        <ion-label position="stacked">Password</ion-label>
+        <p
+          class="validation-error"
+          *ngIf="usernameInput.invalid && usernameInput.touched">
+
+          Please enter your username or email address.
+
+        </p>
+
+        <!-- Password -->
+        <ion-label position="stacked">
+          Password
+        </ion-label>
+
         <ion-input
           name="password"
           type="password"
           placeholder="Enter your password"
           [(ngModel)]="password"
           required
-        ></ion-input>
+          #passwordInput="ngModel"
+          (ionInput)="clearErrors()">
+        </ion-input>
 
+        <p
+          class="validation-error"
+          *ngIf="passwordInput.invalid && passwordInput.touched">
 
+          Please enter your password.
+
+        </p>
+
+        <!-- Forgot Password -->
+        <div class="forgot-password">
+
+          <a routerLink="/auth/forgot-password">
+            Forgot Password?
+          </a>
+
+        </div>
+
+        <!-- Login Error -->
+        <p class="login-error" *ngIf="errorMessage()">
+          {{ errorMessage() }}
+        </p>
+
+        <!-- Login Button -->
         <ion-button
           type="submit"
           expand="block"
           class="primary-button"
-          [disabled]="isLoading"
-        >
-          {{ isLoading ? 'SIGNING IN...' : 'SIGN IN' }}
-          <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
-       </ion-button>
+          [disabled]="isLoading()">
+
+          {{ isLoading() ? 'SIGNING IN...' : 'SIGN IN' }}
+
+          <ion-icon
+            *ngIf="!isLoading()"
+            slot="end"
+            name="arrow-forward-outline">
+          </ion-icon>
+
+        </ion-button>
 
       </form>
 
+      <!-- Email Verification Section -->
+      <div
+        class="verification-resend"
+        *ngIf="requiresVerification()">
 
+        <div class="verification-icon">
+          <ion-icon name="mail-unread-outline"></ion-icon>
+        </div>
+
+        <h3>Email Verification Required</h3>
+
+        <p>
+          Your account exists, but your email address has not been
+          verified. Please verify your email before logging in.
+        </p>
+
+        <!-- Display Email Address -->
+        <p
+          class="verification-email"
+          *ngIf="isEmailAddress()">
+
+          Verification email will be sent to:
+
+          <strong>{{ usernameOrEmail }}</strong>
+
+        </p>
+
+        <!-- Resend Verification Button -->
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="resend-button"
+          [disabled]="isResending() || !isEmailAddress()"
+          (click)="resendVerification()">
+
+          {{ isResending()
+              ? 'SENDING...'
+              : 'RESEND VERIFICATION EMAIL' }}
+
+        </ion-button>
+
+        <!-- Username Hint -->
+        <p
+          class="resend-hint"
+          *ngIf="!isEmailAddress()">
+
+          You entered a username. Please replace it with your
+          registered email address to request another verification email.
+
+        </p>
+
+      </div>
+
+      <!-- Register Link -->
       <p class="auth-switch">
+
         Don't have an account?
-        <a routerLink="/auth/register">Create an account</a>
+
+        <a routerLink="/auth/register">
+          Create an account
+        </a>
+
       </p>
+
     </div>
 
+    <!-- Back to Home -->
     <a class="back-link" routerLink="/home">
       Back to home
     </a>
+
   </div>
+
 </ion-content>

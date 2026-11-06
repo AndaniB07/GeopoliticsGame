@@ -136,3 +136,91 @@ ion-input {
     font-size: 27px;
   }
 }
+
+
+
+.validation-error {
+  color: #ff6464;
+  font-size: 12px;
+  margin: 5px 0 12px;
+}
+
+.password-requirements {
+  margin: 10px 0 18px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.requirements-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #b8c1d1;
+}
+
+.password-requirements div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin: 7px 0;
+  color: #9ca3af;
+}
+
+.password-requirements ion-icon {
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+.password-requirements .requirement-met {
+  color: #42d392;
+}
+
+.password-requirements .requirement-met ion-icon {
+  color: #42d392;
+}
+
+
+.validation-error {
+  color: #ff6464;
+  font-size: 12px;
+  margin: 5px 0 12px;
+}
+
+.password-requirements {
+  margin: 10px 0 18px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.requirements-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #b8c1d1;
+}
+
+.password-requirements div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin: 7px 0;
+  color: #9ca3af;
+}
+
+.password-requirements ion-icon {
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+.password-requirements .requirement-met {
+  color: #42d392;
+}
+
+.password-requirements .requirement-met ion-icon {
+  color: #42d392;
+}
+

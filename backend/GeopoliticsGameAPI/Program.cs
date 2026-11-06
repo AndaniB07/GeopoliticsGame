@@ -1,3 +1,4 @@
+
 using GeopoliticsGameAPI.Data;
 using GeopoliticsGameAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,10 +8,10 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -39,6 +40,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// JWT configuration
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("JWT signing key is missing");
 
@@ -68,13 +70,14 @@ builder.Services
         };
     });
 
+// Database and application services
 builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddHttpClient<BattleCommentaryService>();
 builder.Services.AddScoped<GameService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EmailService>();
 
-
-// Allow the Ionic/Angular development server and deployed website to call this API
+// CORS configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AngularFrontend", policy =>

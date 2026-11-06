@@ -75,7 +75,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddHttpClient<OpenAIService>();
 
 
-// Allow the Ionic/Angular development server to call this API
+// Allow the Ionic/Angular development server and deployed website to call this API
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AngularFrontend", policy =>
@@ -83,7 +83,8 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
             "http://localhost:8100",
             "http://localhost:8101",
-            "http://localhost:4200"
+            "http://localhost:4200",
+            "https://nice-field-0b5506f00.4.azurestaticapps.net"
         )
         .AllowAnyHeader()
         .AllowAnyMethod();

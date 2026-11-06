@@ -84,7 +84,8 @@ builder.Services.AddCors(options =>
             "http://localhost:8100",
             "http://localhost:8101",
             "http://localhost:4200",
-            "https://nice-field-0b5506f00.4.azurestaticapps.net"
+            "https://nice-field-0b5506f00.4.azurestaticapps.net",
+            "https://geopolitics-game-web-e6amadbdgfgnhkhs.centralindia-01.azurewebsites.net"
         )
         .AllowAnyHeader()
         .AllowAnyMethod();

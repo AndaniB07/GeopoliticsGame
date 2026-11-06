@@ -1,4 +1,5 @@
 ﻿
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -7,10 +8,17 @@ namespace GeopoliticsGameAPI.Services
     public class BattleCommentaryService
     {
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<BattleCommentaryService> _logger;
 
-        public BattleCommentaryService(HttpClient httpClient)
+        public BattleCommentaryService(
+            HttpClient httpClient,
+            IConfiguration configuration,
+            ILogger<BattleCommentaryService> logger)
         {
             _httpClient = httpClient;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<string> GenerateCommentaryAsync(
@@ -24,53 +32,94 @@ namespace GeopoliticsGameAPI.Services
         {
             string atmosphere = string.Empty;
 
-            // Ask AI for atmosphere only, not battle facts.
+            string apiKey = _configuration["Groq:ApiKey"] ?? "";
+
             try
             {
-                var response = await _httpClient.PostAsJsonAsync(
-                    "http://localhost:11434/api/generate",
-                    new
+                if (string.IsNullOrWhiteSpace(apiKey))
+                {
+                    throw new InvalidOperationException(
+                        "Groq API key is missing.");
+                }
+
+                string battleDetails =
+                    $"Attacker: {attacker}\n" +
+                    $"Defender: {defender}\n" +
+                    $"Attacker dice: {string.Join(", ", attackerDice)}\n" +
+                    $"Defender dice: {string.Join(", ", defenderDice)}\n" +
+                    $"Attacker losses: {attackerLosses}\n" +
+                    $"Defender losses: {defenderLosses}\n" +
+                    $"Conquered: {conquered}";
+
+                using var request = new HttpRequestMessage(
+                    HttpMethod.Post,
+                    "https://api.groq.com/openai/v1/chat/completions");
+
+                request.Headers.Authorization =
+                    new AuthenticationHeaderValue("Bearer", apiKey);
+
+                request.Content = JsonContent.Create(new
+                {
+                    model = "openai/gpt-oss-20b",
+                    messages = new[]
                     {
-                        model = "qwen2.5:3b",
-                        prompt =
-                            "Write exactly one short, dramatic sentence " +
-                            "suitable for a military strategy game's battle report. " +
-                            "Describe only the general tension and atmosphere. " +
-                            "Do not mention countries, soldiers, casualties, " +
-                            "attacks, victories, defeats, territory, tactics, " +
-                            "or any specific events. Do not make factual claims.",
-                        stream = false
-                    });
+                        new
+                        {
+                            role = "system",
+                            content =
+                                "You are the battle narrator for a geopolitical " +
+                                "strategy game. Write 1 or 2 short, vivid, " +
+                                "dramatic sentences describing the battle as " +
+                                "it unfolds. Use the supplied dice rolls and " +
+                                "casualties to shape the narration. Be varied " +
+                                "and atmospheric. Never invent dice results, " +
+                                "casualties, victories or events. Do not repeat " +
+                                "the supplied facts word for word."
+                        },
+                        new
+                        {
+                            role = "user",
+                            content = battleDetails
+                        }
+                    }
+                });
+
+                using var response = await _httpClient.SendAsync(request);
 
                 response.EnsureSuccessStatusCode();
 
-                var result = await response.Content.ReadFromJsonAsync<JsonElement>();
+                using var result = JsonDocument.Parse(
+                    await response.Content.ReadAsStringAsync());
 
-                if (result.TryGetProperty("response", out var commentary))
-                {
-                    atmosphere = commentary.GetString()?.Trim() ?? string.Empty;
-                }
+                atmosphere = result.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("content")
+                    .GetString()?.Trim() ?? "";
             }
-            catch
+            catch (Exception ex)
             {
-                // The game must still work if local AI is unavailable.
+                _logger.LogError(
+                    ex,
+                    "Groq battle commentary generation failed.");
+
+                atmosphere =
+                    "The battlefield remains engulfed in tension.";
             }
 
-            // C# determines the authoritative battle facts.
             string battleFacts =
                 $"{attacker} lost {attackerLosses} soldier(s), while " +
                 $"{defender} lost {defenderLosses} soldier(s).";
+
+            string diceResults =
+                $"{attacker} rolled [{string.Join(", ", attackerDice)}], " +
+                $"while {defender} rolled [{string.Join(", ", defenderDice)}].";
 
             string outcome = conquered
                 ? $"{attacker} conquered {defender}."
                 : $"{defender} remains unconquered.";
 
-            if (string.IsNullOrWhiteSpace(atmosphere))
-            {
-                atmosphere = "Tensions remain high on the battlefield.";
-            }
-
-            return $"{atmosphere} {battleFacts} {outcome}";
+            return $"{atmosphere} {diceResults} {battleFacts} {outcome}";
         }
     }
 }

@@ -82,6 +82,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
             "http://localhost:8100",
             "http://localhost:8101",
+            "http://localhost:8102",
             "http://localhost:4200",
             "https://nice-field-0b5506f00.4.azurestaticapps.net",
             "https://geopolitics-game-web-e6amadbdgfgnhkhs.centralindia-01.azurewebsites.net"
@@ -103,7 +104,10 @@ if (app.Environment.IsDevelopment())
 // CORS must run before controller endpoints.
 app.UseCors("AngularFrontend");
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

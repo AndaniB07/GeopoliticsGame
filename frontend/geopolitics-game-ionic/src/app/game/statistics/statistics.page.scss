@@ -1,0 +1,294 @@
+:host {
+  display: block;
+}
+
+/* Main page */
+ion-content {
+  --background: #0b1120;
+}
+
+.statistics-page {
+  min-height: 100%;
+  padding: 32px;
+  color: #f5f5f5;
+  background: #0b1120;
+}
+
+.statistics-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Navigation bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 5%;
+  background: #080d19;
+  border-bottom: 1px solid rgba(214, 173, 96, 0.3);
+  min-height: 75px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f5f5f5;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d6ad60;
+  color: #d6ad60;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link,
+.logout-button {
+  color: #d6ad60;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: transparent;
+  border: 1px solid rgba(214, 173, 96, 0.4);
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.nav-link:hover,
+.logout-button:hover {
+  color: #f5d99b;
+  border-color: #d6ad60;
+}
+
+/* Page heading */
+.statistics-header {
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  color: #d6ad60;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.statistics-header h1 {
+  color: #f5f5f5;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.statistics-header p {
+  color: #aab4c8;
+  margin-bottom: 14px;
+}
+
+.round-badge {
+  display: inline-block;
+  background: rgba(214, 173, 96, 0.12);
+  color: #d6ad60;
+  border: 1px solid rgba(214, 173, 96, 0.35);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Campaign overview */
+.status-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.status-item {
+  background: #121b2c;
+  border: 1px solid #273349;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.status-item h2 {
+  color: #d6ad60;
+  font-size: 16px;
+  margin-top: 0;
+}
+
+.status-item p {
+  color: #aab4c8;
+  margin-bottom: 6px;
+}
+
+/* Statistics sections */
+.statistics-section {
+  margin-bottom: 32px;
+}
+
+.section-heading {
+  color: #f5f5f5;
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* Statistics cards */
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #121b2c;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid #273349;
+  transition: border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: #d6ad60;
+}
+
+.stat-card h3,
+.stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #aab4c8;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+  color: #d6ad60;
+  margin-bottom: 8px;
+}
+
+.stat-card p {
+  font-size: 13px;
+  color: #aab4c8;
+  margin: 0;
+}
+
+/* Battle statistics */
+.battle-card {
+  background: #121b2c;
+  border: 1px solid #273349;
+  border-radius: 14px;
+  padding: 22px;
+}
+
+/* Loading and error messages */
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #aab4c8;
+}
+
+.error-state {
+  color: #f87171;
+}
+
+ion-spinner {
+  --color: #d6ad60;
+}
+
+
+.chart-card {
+  background: #121b2c;
+  border: 1px solid #273349;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+
+  h3 {
+    color: #f5f5f5;
+    font-size: 17px;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+/* Responsive layout */
+@media (min-width: 768px) {
+  .statistics-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .top-bar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-link,
+  .logout-button {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+
+  .statistics-page {
+    padding: 20px 16px;
+  }
+
+  .status-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .statistics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-card strong {
+  font-size: 25px;
+}
+}
+
+@media (max-width: 380px) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}

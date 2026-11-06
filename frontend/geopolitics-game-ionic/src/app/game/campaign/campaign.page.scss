@@ -1,0 +1,1068 @@
+
+:host {
+  display: block;
+}
+
+.campaign-page {
+  min-height: 100%;
+  padding: 32px;
+  color: #f5f5f5;
+  background: #0b1120;
+}
+
+.campaign-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADER AREA
+========================================= */
+
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #d6ad60;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #aab4c8;
+  font-size: 15px;
+}
+
+/* =========================================
+   GAME OVER BANNER
+========================================= */
+
+.game-over-banner {
+  margin-bottom: 32px;
+  padding: 28px;
+  border: 1px solid #273349;
+  border-radius: 14px;
+  background: #121b2c;
+  text-align: center;
+
+  h2 {
+    margin: 0 0 8px;
+    font-size: 34px;
+    letter-spacing: 4px;
+  }
+
+  p {
+    margin: 0 0 20px;
+    color: #aab4c8;
+  }
+
+  &.victory {
+    border-color: #3f9b6a;
+    background: linear-gradient(180deg, rgba(63, 155, 106, 0.12), #121b2c);
+
+    h2 {
+      color: #5fd18f;
+    }
+  }
+
+  &.defeat {
+    border-color: #b5484a;
+    background: linear-gradient(180deg, rgba(181, 72, 74, 0.12), #121b2c);
+
+    h2 {
+      color: #e8847c;
+    }
+  }
+}
+
+.game-over-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* =========================================
+   VIEW-ONLY NOTICE
+========================================= */
+
+.public-view-notice {
+  margin-bottom: 28px;
+  padding: 18px 22px;
+  border: 1px solid #67532f;
+  border-left: 4px solid #d6ad60;
+  border-radius: 12px;
+  background: #1a2230;
+
+  h3 {
+    margin: 0 0 6px;
+    color: #e4bd72;
+    font-size: 16px;
+  }
+
+  p {
+    margin: 0;
+    color: #aab4c8;
+    line-height: 1.6;
+  }
+}
+
+/* =========================================
+   STATUS PANEL
+========================================= */
+
+.status-item span,
+.country-stat span {
+  color: #9ca9bd;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.status-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid #273349;
+  border-radius: 14px;
+  background: #121b2c;
+
+  strong {
+    overflow-wrap: anywhere;
+    color: #ffffff;
+    font-size: 18px;
+  }
+}
+
+/* =========================================
+   COUNTRIES
+========================================= */
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 26px;
+  }
+}
+
+.country-count {
+  color: #d6ad60;
+  font-size: 13px;
+}
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.country-card {
+  position: relative;
+  min-width: 0;
+  padding: 22px;
+  overflow: hidden;
+  border: 1px solid #273349;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #172338, #101a2b 75%);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #d6ad60, transparent);
+    content: '';
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: #b18b4b;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  }
+
+  h3 {
+    margin: 0 0 18px;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+}
+
+.country-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.country-indicator {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d6ad60;
+  box-shadow: 0 0 12px rgba(214, 173, 96, 0.65);
+}
+
+.continent {
+  padding: 5px 9px;
+  border: 1px solid #35445d;
+  border-radius: 5px;
+  background: rgba(8, 13, 25, 0.5);
+  color: #aab4c8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.country-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(53, 68, 93, 0.65);
+
+  span {
+    color: #8998ae;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+  }
+
+  strong {
+    color: #e4bd72;
+    font-size: 16px;
+    font-weight: 800;
+  }
+}
+
+.conquered-label {
+  margin: 0 0 16px;
+  padding: 9px 11px;
+  border: 1px solid rgba(224, 107, 115, 0.25);
+  border-radius: 7px;
+  background: rgba(224, 107, 115, 0.08);
+  color: #e58b91;
+  font-size: 11px;
+  line-height: 1.5;
+
+  strong {
+    color: #ffb4bd;
+    font-weight: 800;
+  }
+}
+
+/* =========================================
+   LOADING / ERROR / EMPTY STATES
+========================================= */
+
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  color: #aab4c8;
+}
+
+.loading-state ion-spinner {
+  width: 40px;
+  height: 40px;
+  color: #d6ad60;
+}
+
+.error-state h2 {
+  color: #ffffff;
+}
+
+.empty-state {
+  min-height: auto;
+  padding: 24px;
+  border: 1px dashed #35445d;
+  border-radius: 12px;
+  background: #121b2c;
+}
+
+/* =========================================
+   TURN STATUS
+========================================= */
+
+.turn-status {
+  margin: 28px 0;
+  padding: 22px;
+  border: 1px solid #273349;
+  border-left: 4px solid #d6ad60;
+  border-radius: 14px;
+  background: #121b2c;
+
+  h2 {
+    margin: 0 0 14px;
+    color: #e4bd72;
+    font-size: 22px;
+  }
+
+  p {
+    margin: 10px 0;
+    color: #aab4c8;
+    line-height: 1.6;
+  }
+
+  strong {
+    color: #ffffff;
+  }
+}
+
+/* =========================================
+   MILITARY SECTIONS
+========================================= */
+
+.attack-section {
+  margin-top: 36px;
+  padding: 26px;
+  border: 1px solid #273349;
+  border-radius: 16px;
+  background: #121b2c;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+  > p {
+    color: #aab4c8;
+    line-height: 1.7;
+  }
+
+  > p strong {
+    color: #e4bd72;
+  }
+}
+
+.attack-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.attack-field {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 10px;
+
+  label {
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  select,
+  input {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px;
+    border: 1px solid #35445d;
+    border-radius: 9px;
+    outline: none;
+    background: #0b1120;
+    color: #ffffff;
+    font-size: 14px;
+
+    &:focus {
+      border-color: #d6ad60;
+      box-shadow: 0 0 0 2px rgba(214, 173, 96, 0.15);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  select option {
+    background: #121b2c;
+    color: #ffffff;
+  }
+}
+
+.conquest-transfer-section {
+  border-color: #67532f;
+
+  .status-item {
+    max-width: 260px;
+    margin: 18px 0;
+  }
+
+  .conquest-transfer-field {
+    max-width: 260px;
+    margin-bottom: 18px;
+  }
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.attack-button,
+.stop-attack-button,
+.attack-controls > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.attack-button {
+  background: #d6ad60;
+  color: #0b1120;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: #e4bd72;
+  }
+}
+
+.stop-attack-button {
+  border-color: #8b3540;
+  background: #3b1821;
+  color: #ffb4bd;
+
+  &:hover:not(:disabled) {
+    background: #56202b;
+  }
+}
+
+.attack-controls > button:not(.attack-button) {
+  border-color: #35445d;
+  background: #1b2940;
+  color: #ffffff;
+
+  &:hover:not(:disabled) {
+    border-color: #d6ad60;
+    background: #24344e;
+  }
+}
+
+.attack-button:disabled,
+.stop-attack-button:disabled,
+.attack-controls > button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================================
+   REINFORCEMENT ALLOCATION
+========================================= */
+
+.reinforcement-country {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid #273349;
+
+  &:last-of-type {
+    margin-bottom: 20px;
+  }
+
+  label {
+    flex: 1;
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  input {
+    width: 110px;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #35445d;
+    border-radius: 9px;
+    outline: none;
+    background: #0b1120;
+    color: #ffffff;
+    font-size: 16px;
+
+    &:focus {
+      border-color: #d6ad60;
+      box-shadow: 0 0 0 2px rgba(214, 173, 96, 0.15);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* =========================================
+   BATTLE REPORT
+========================================= */
+
+.battle-result {
+  margin-top: 30px;
+  padding: 26px;
+  overflow: hidden;
+  border: 1px solid #67532f;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at top right, rgba(214, 173, 96, 0.09), transparent 55%),
+    #101a2b;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.25);
+}
+
+.battle-report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 800;
+  }
+
+  .eyebrow {
+    margin-bottom: 7px;
+  }
+}
+
+.battle-status {
+  padding: 8px 12px;
+  border: 1px solid #a66b32;
+  border-radius: 6px;
+  background: rgba(180, 112, 45, 0.12);
+  color: #e9b66d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  &.conquered {
+    border-color: #3f9b6a;
+    background: rgba(63, 155, 106, 0.12);
+    color: #5fd18f;
+  }
+}
+
+.battle-commentary {
+  margin-bottom: 24px;
+  padding: 18px;
+  border-left: 3px solid #d6ad60;
+  border-radius: 0 10px 10px 0;
+  background: rgba(214, 173, 96, 0.07);
+
+  .commentary-label {
+    color: #d6ad60;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+  }
+
+  p {
+    margin: 9px 0 0;
+    color: #e2e8f0;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+}
+
+.battle-forces {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.battle-force {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #35445d;
+  border-radius: 12px;
+  background: rgba(8, 13, 25, 0.7);
+}
+
+.force-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  h4 {
+    margin: 0;
+    color: #e2e8f0;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+}
+
+.force-indicator {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d6ad60;
+  box-shadow: 0 0 10px rgba(214, 173, 96, 0.6);
+}
+
+.defender-force .force-indicator {
+  background: #e06b73;
+  box-shadow: 0 0 10px rgba(224, 107, 115, 0.6);
+}
+
+.dice-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 48px;
+}
+
+.battle-die {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #d6ad60;
+  border-radius: 9px;
+  background: linear-gradient(145deg, #e4bd72, #a77b36);
+  color: #101827;
+  font-size: 21px;
+  font-weight: 900;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: diceReveal 0.45s ease both;
+}
+
+.defender-die {
+  border-color: #e06b73;
+  background: linear-gradient(145deg, #f08a91, #a83e4b);
+  color: #ffffff;
+}
+
+.dice-empty {
+  color: #7c8aa3;
+  font-size: 13px;
+}
+
+.force-casualties {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #273349;
+
+  span {
+    color: #9ca9bd;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+
+  strong {
+    color: #ff9299;
+    font-size: 22px;
+  }
+}
+
+.battle-outcome {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #67532f;
+  border-radius: 10px;
+  background: rgba(214, 173, 96, 0.07);
+
+  span {
+    color: #e4bd72;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.3px;
+  }
+
+  p {
+    margin: 7px 0 0;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  &.outcome-victory {
+    border-color: #3f9b6a;
+    background: rgba(63, 155, 106, 0.08);
+
+    span {
+      color: #5fd18f;
+    }
+  }
+}
+
+.battle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+
+  button {
+    margin: 0;
+  }
+}
+
+@keyframes diceReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px) rotate(-15deg) scale(0.7);
+  }
+
+  70% {
+    transform: translateY(3px) rotate(4deg) scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
+/* =========================================
+   CAMPAIGN EVENT HISTORY
+========================================= */
+
+.event-history-section {
+  margin-top: 40px;
+
+  h2 {
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+}
+
+.event-item {
+  margin-bottom: 12px;
+  padding: 16px 18px;
+  border: 1px solid #273349;
+  border-left: 4px solid #64748b;
+  border-radius: 10px;
+  background: #121b2c;
+
+  h3 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0 0 8px;
+    color: #aab4c8;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  small {
+    color: #7c8aa3;
+    font-size: 12px;
+  }
+}
+
+.empty-events {
+  padding: 20px;
+  text-align: center;
+  color: #7c8aa3;
+}
+
+/* Event categories */
+
+.event-GameCreated {
+  border-left-color: #64748b;
+}
+
+.event-TurnStarted,
+.event-NpcTurnStarted {
+  border-left-color: #0ea5e9;
+}
+
+.event-NpcAttackDecision,
+.event-NpcReinforcementsAllocated,
+.event-NpcSoldierTransfer {
+  border-left-color: #f59e0b;
+}
+
+.event-NpcAttackSkipped,
+.event-NpcTransferSkipped,
+.event-NpcAttackStopped,
+.event-PlayerAttackStopped {
+  border-left-color: #94a3b8;
+}
+
+.event-NpcBattleRound {
+  border-left-color: #8b5cf6;
+}
+
+.event-PlayerBattleRound {
+  border-left-color: #d6ad60;
+}
+
+.event-NpcConquest {
+  border-left-color: #16a34a;
+}
+
+.event-PlayerConquest {
+  border-left-color: #5fd18f;
+}
+
+.event-ReinforcementsAllocated,
+.event-SoldiersTransferred {
+  border-left-color: #d6ad60;
+}
+
+.event-CountryEliminated {
+  border-left-color: #dc2626;
+}
+
+.event-GameCompleted {
+  border-left-color: #d6ad60;
+  background: #1a2230;
+}
+
+/* =========================================
+   NAVIGATION HEADER
+========================================= */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 75px;
+  padding: 18px 5%;
+  border-bottom: 1px solid rgba(218, 181, 105, 0.2);
+  background: #080d19;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f4f0e6;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(218, 181, 105, 0.45);
+  background: rgba(205, 166, 92, 0.12);
+  color: #cda65c;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-link,
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border: 1px solid rgba(218, 181, 105, 0.25);
+  background: rgba(205, 166, 92, 0.06);
+  color: #d8c69e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.logout-button {
+  border-color: rgba(218, 181, 105, 0.45);
+  background: transparent;
+  color: #cda65c;
+  cursor: pointer;
+}
+
+.nav-link:hover,
+.logout-button:hover {
+  border-color: rgba(205, 166, 92, 0.55);
+  background: rgba(205, 166, 92, 0.14);
+  color: #cda65c;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+  .campaign-page {
+    padding: 22px 16px;
+  }
+
+  .campaign-header {
+    align-items: flex-start;
+  }
+
+  .status-panel,
+  .country-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .attack-section {
+    padding: 20px 16px;
+  }
+
+  .attack-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .attack-field {
+    flex-basis: auto;
+  }
+
+  .attack-controls > button,
+  .attack-controls .attack-button {
+    width: 100%;
+  }
+
+  .reinforcement-country {
+    gap: 12px;
+
+    label {
+      font-size: 13px;
+    }
+
+    input {
+      width: 85px;
+    }
+  }
+
+  .battle-result {
+    padding: 18px 14px;
+  }
+
+  .battle-forces {
+    grid-template-columns: 1fr;
+  }
+
+  .battle-report-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .battle-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .game-over-banner {
+    padding: 22px 16px;
+
+    h2 {
+      font-size: 26px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .top-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 4%;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nav-link,
+  .logout-button {
+    padding: 9px 10px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .battle-die,
+  .country-card {
+    animation: none;
+    transition: none;
+  }
+
+  .country-card:hover {
+    transform: none;
+  }
+}

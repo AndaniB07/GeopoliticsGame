@@ -1,0 +1,188 @@
+<ion-header>
+  <header class="top-bar">
+    <a class="brand" routerLink="/home">
+      <span class="brand-icon">G</span>
+      <span>GEOPOLITICS</span>
+    </a>
+
+    <div class="header-actions">
+      <a class="nav-link" routerLink="/dashboard">
+        DASHBOARD
+      </a>
+
+      <a class="nav-link" routerLink="/game-history">
+        GAME HISTORY
+      </a>
+
+      <a
+        class="nav-link"
+        *ngIf="statistics() as stats"
+        [routerLink]="['/game/statistics', stats.gameId]"
+      >
+        STATISTICS
+      </a>
+
+      <button class="logout-button" (click)="logout()">
+        SIGN OUT
+      </button>
+    </div>
+  </header>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="statistics-page">
+
+    <!-- LOADING -->
+    <div class="loading-state" *ngIf="isLoading()">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading campaign statistics...</p>
+    </div>
+
+    <!-- ERROR -->
+    <div class="error-state" *ngIf="!isLoading() && errorMessage()">
+      <h2>Statistics unavailable</h2>
+      <p>{{ errorMessage() }}</p>
+    </div>
+
+    <!-- STATISTICS CONTENT -->
+    <div
+      class="statistics-content"
+      *ngIf="!isLoading() && statistics() as stats"
+    >
+
+      <!-- PAGE HEADER -->
+      <header class="statistics-header">
+        <div>
+          <p class="eyebrow">GEOPOLITICS GAME</p>
+          <h1>Campaign Statistics</h1>
+          <p class="subtitle">
+            Performance report for {{ stats.playerCountryName }}
+          </p>
+        </div>
+
+        <span class="round-badge">
+          ROUND {{ stats.round }}
+        </span>
+      </header>
+
+      <!-- CAMPAIGN STATUS -->
+      <section class="status-panel">
+
+<div class="status-item">
+  <span>CAMPAIGN STATUS: </span>
+  <br>
+  <strong>
+    {{ stats.status === 'InProgress' ? 'In Progress' : stats.status }}
+  </strong>
+</div>
+
+<div class="status-item">
+  <span>CAMPAIGN OUTCOME: </span> 
+  <br>
+  <strong>
+    {{ stats.outcome === 'None' ? 'Ongoing' : stats.outcome }}
+  </strong>
+</div>
+
+      </section>
+
+      <!-- MAIN STATISTICS -->
+      <section class="statistics-section">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CAMPAIGN OVERVIEW</p>
+            <h2>Territorial Performance</h2>
+          </div>
+        </div>
+
+        <div class="statistics-grid">
+
+          <article class="stat-card">
+            <span class="stat-label">COUNTRIES CONTROLLED</span>
+            <strong>{{ stats.countriesControlled }}</strong>
+            <p>Your current territories</p>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">TOTAL SOLDIERS</span>
+            <strong>{{ stats.totalSoldiers }}</strong>
+            <p>Available military strength</p>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">COUNTRIES CONQUERED</span>
+            <strong>{{ stats.countriesConquered }}</strong>
+            <p>Successful conquests</p>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">COUNTRIES LOST</span>
+            <strong>{{ stats.countriesLost }}</strong>
+            <p>Territories lost to opponents</p>
+          </article>
+
+        </div>
+
+      </section>
+
+      <!-- BATTLE PERFORMANCE -->
+      <section class="statistics-section">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MILITARY OPERATIONS</p>
+            <h2>Battle Performance</h2>
+          </div>
+        </div>
+
+        <div class="statistics-grid">
+
+          <div class="chart-card">
+  <h3>Battle Rounds Comparison</h3>
+
+  <div class="chart-container">
+    <canvas
+      baseChart
+      [type]="'bar'"
+      [data]="battleChartData"
+      [options]="battleChartOptions"
+    >
+    </canvas>
+  </div>
+</div>
+
+          <article class="stat-card battle-card">
+            <span class="stat-label">BATTLE ROUNDS WON</span>
+            <strong>{{ stats.battlesWon }}</strong>
+            <p>Rounds favouring your attacks</p>
+          </article>
+
+          <article class="stat-card battle-card">
+            <span class="stat-label">BATTLE ROUNDS LOST</span>
+            <strong>{{ stats.battlesLost }}</strong>
+            <p>Rounds favouring defenders</p>
+          </article>
+
+          <article class="stat-card battle-card">
+            <span class="stat-label">TOTAL BATTLE ROUNDS</span>
+            <strong>{{ stats.totalBattleRounds }}</strong>
+            <p>Your recorded battle rounds</p>
+          </article>
+
+          <article class="stat-card battle-card">
+            <span class="stat-label">BATTLE WIN RATE</span>
+            <strong>{{ getBattleWinRate() }}%</strong>
+            <p>Percentage of battle rounds won</p>
+          </article>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</ion-content>

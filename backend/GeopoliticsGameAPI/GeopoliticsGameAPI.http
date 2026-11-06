@@ -1,0 +1,6 @@
+@GeopoliticsGameAPI_HostAddress = http://localhost:5058
+
+GET {{GeopoliticsGameAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

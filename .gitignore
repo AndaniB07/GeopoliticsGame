@@ -1,0 +1,39 @@
+
+# Backend - .NET
+**/bin/
+**/obj/
+**/publish/
+**/appsettings.Development.json
+**/secrets.json
+**/Properties/ServiceDependencies/
+**/Properties/PublishProfiles/
+
+# Frontend - Angular / Ionic
+**/node_modules/
+**/dist/
+**/www/
+**/.angular/
+**/coverage/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+
+# IDE and operating system files
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+**/*.csproj.user
+
+# Deployment packages
+*.zip

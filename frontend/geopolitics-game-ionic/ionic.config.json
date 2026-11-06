@@ -1,0 +1,7 @@
+{
+  "name": "geopolitics-game-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

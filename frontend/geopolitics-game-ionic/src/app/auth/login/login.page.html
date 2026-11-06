@@ -1,0 +1,61 @@
+<ion-content [fullscreen]="true" class="auth-page">
+  <div class="auth-container">
+    <a class="brand" routerLink="/home">
+      <span class="brand-icon">G</span>
+      <span>GEOPOLITICS</span>
+    </a>
+
+    <div class="auth-card">
+      <p class="eyebrow"> WELCOME BACK, COMMANDER</p>
+
+      <h1>Sign in</h1>
+
+      <p class="subtitle">
+        Return to your campaign and continue your fight for global control.
+      </p>
+
+      <form (ngSubmit)="login()">
+
+        <ion-label position="stacked">Username or email address</ion-label>
+        <ion-input
+          name="usernameOrEmail"
+          type="text"
+          placeholder="Enter your username or email"
+          [(ngModel)]="usernameOrEmail"
+          required
+        ></ion-input>
+
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          required
+        ></ion-input>
+
+
+        <ion-button
+          type="submit"
+          expand="block"
+          class="primary-button"
+          [disabled]="isLoading"
+        >
+          {{ isLoading ? 'SIGNING IN...' : 'SIGN IN' }}
+          <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+       </ion-button>
+
+      </form>
+
+
+      <p class="auth-switch">
+        Don't have an account?
+        <a routerLink="/auth/register">Create an account</a>
+      </p>
+    </div>
+
+    <a class="back-link" routerLink="/home">
+      Back to home
+    </a>
+  </div>
+</ion-content>

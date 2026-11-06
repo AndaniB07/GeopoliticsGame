@@ -1,0 +1,87 @@
+<ion-content [fullscreen]="true" class="country-selection-page">
+  <div class="page-wrapper">
+
+    <header class="top-bar">
+      <a class="brand" routerLink="/dashboard">
+        <span class="brand-icon">G</span>
+        <span>GEOPOLITICS</span>
+      </a>
+
+      <span class="step-label">STEP 01 / 02</span>
+    </header>
+
+    <main class="selection-content">
+      <div class="eyebrow">
+        <span class="status-dot"></span>
+        CAMPAIGN SETUP
+      </div>
+
+      <h1>
+        CHOOSE YOUR <br />
+        <span>NATION.</span>
+      </h1>
+
+      <p class="description">
+        Every great campaign begins with a choice.
+        Select the nation you will lead as you compete for global dominance.
+      </p>
+
+      <div class="country-summary">
+        <span>AVAILABLE NATIONS</span>
+        <strong>{{ countries().length }}</strong>
+      </div>
+
+      <div *ngIf="isLoading()" class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading available nations...</p>
+      </div>
+
+      <div *ngIf="!isLoading() && errorMessage()" class="error-state">
+        <p>{{ errorMessage() }}</p>
+
+        <ion-button class="primary-button" (click)="loadCountries()">
+          TRY AGAIN
+        </ion-button>
+      </div>
+
+      <div
+        *ngIf="!isLoading() && !errorMessage() && countries().length === 0"
+        class="empty-state"
+      >
+        No countries are currently available.
+      </div>
+
+      <section
+        *ngIf="!isLoading() && !errorMessage() && countries().length > 0"
+        class="country-grid"
+      >
+        <ion-card
+          *ngFor="let country of countries()"
+          class="country-card"
+          [class.disabled]="isCreatingGame()"
+          (click)="selectCountry(country)"
+        >
+          <ion-card-content>
+            <div class="country-top">
+              <span class="country-indicator"></span>
+              <span class="continent">{{ country.continent }}</span>
+            </div>
+
+            <h2>{{ country.name }}</h2>
+
+            <div class="country-population">
+              <span>POPULATION</span>
+              <strong>{{ country.populationMillions | number:'1.0-1' }}M</strong>
+            </div>
+
+            <div class="select-label">SELECT NATION</div>
+          </ion-card-content>
+        </ion-card>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      EVERY MOVE HAS CONSEQUENCES.
+    </footer>
+  </div>
+</ion-content>

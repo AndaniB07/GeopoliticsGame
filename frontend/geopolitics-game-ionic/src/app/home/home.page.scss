@@ -1,0 +1,220 @@
+
+:host {
+  display: block;
+}
+
+.landing-page {
+  --background: #07111f;
+  color: #f4f0e7;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.landing-overlay {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
+  padding: 28px clamp(22px, 6vw, 88px);
+  background:
+    radial-gradient(ellipse at 78% 36%, #17334b88 0%, transparent 48%),
+    linear-gradient(115deg, #07111f 0%, #0a1b2b 60%, #10263a 100%);
+}
+
+.landing-overlay::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#ffffff08 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+  background-size: 48px 48px;
+  content: "";
+  pointer-events: none;
+}
+
+.top-bar,
+.hero,
+.landing-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ffffff20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f4f0e7;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-decoration: none;
+}
+
+.brand-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #d5b36a;
+  color: #d5b36a;
+  font-size: 23px;
+}
+
+.edition-label,
+.eyebrow,
+.game-facts span,
+.landing-footer {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.edition-label {
+  color: #a5b2c1;
+}
+
+.hero {
+  width: min(100%, 670px);
+  margin: auto 0;
+  padding: 70px 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #d5b36a;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d5b36a;
+  box-shadow: 0 0 12px #d5b36a88;
+}
+
+h1 {
+  margin: 26px 0;
+  color: #f4f0e7;
+  font-size: clamp(46px, 8vw, 88px);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -3px;
+}
+
+h1 span {
+  color: #d5b36a;
+}
+
+.hero-description {
+  max-width: 470px;
+  color: #b5c0cd;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 510px;
+  margin-top: 32px;
+}
+
+.primary-button {
+  --background: #d5b36a;
+  --background-hover: #e3c783;
+  --color: #101722;
+  --border-radius: 2px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.secondary-button {
+  --color: #f4f0e7;
+  --border-color: #657487;
+  --border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.game-facts {
+  display: flex;
+  gap: 48px;
+  margin-top: 55px;
+  padding-top: 24px;
+  border-top: 1px solid #ffffff20;
+}
+
+.game-facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.game-facts strong {
+  color: #f4f0e7;
+  font-size: 25px;
+}
+
+.game-facts span {
+  color: #8f9eae;
+  font-size: 9px;
+}
+
+.landing-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid #ffffff20;
+  color: #8494a6;
+  line-height: 1.6;
+}
+
+@media (max-width: 520px) {
+  .landing-overlay {
+    padding: 20px;
+  }
+
+  .edition-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .hero {
+    padding: 55px 0;
+  }
+
+  h1 {
+    letter-spacing: -2px;
+  }
+
+  .hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .game-facts {
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .game-facts span {
+    letter-spacing: 1px;
+  }
+
+  .landing-footer {
+    flex-direction: column;
+    gap: 6px;
+  }
+}

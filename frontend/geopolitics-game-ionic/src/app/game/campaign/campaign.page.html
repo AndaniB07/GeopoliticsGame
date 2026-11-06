@@ -1,0 +1,622 @@
+<ion-header>
+  <header class="top-bar">
+    <a class="brand" routerLink="/home">
+      <span class="brand-icon">G</span>
+      <span>GEOPOLITICS</span>
+    </a>
+
+    <div class="header-actions">
+      <a class="nav-link" routerLink="/dashboard">DASHBOARD</a>
+
+      <a class="nav-link" routerLink="/game-history">GAME HISTORY</a>
+
+      <a
+        class="nav-link"
+        *ngIf="game() as currentGame"
+        [routerLink]="['/game/statistics', currentGame.id]"
+      >
+        STATISTICS
+      </a>
+
+      <button class="logout-button" (click)="logout()">SIGN OUT</button>
+    </div>
+  </header>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="campaign-page">
+
+    <!-- LOADING -->
+    <div *ngIf="isLoading()" class="loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading your campaign...</p>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="!isLoading() && errorMessage()" class="error-state">
+      <h2>Campaign unavailable</h2>
+      <p>{{ errorMessage() }}</p>
+    </div>
+
+    <!-- CAMPAIGN CONTENT -->
+    <div
+      *ngIf="!isLoading() && !errorMessage() && game()"
+      class="campaign-content"
+    >
+
+      <!-- CAMPAIGN HEADER -->
+      <header class="campaign-header">
+        <div>
+          <p class="eyebrow">GEOPOLITICS GAME</p>
+          <h1>Campaign Command</h1>
+
+          <p class="subtitle" *ngIf="isGameOwner()">
+            Your decisions will shape the world
+          </p>
+
+          <p class="subtitle" *ngIf="!isGameOwner()">
+            You are viewing a publicly shared campaign.
+          </p>
+        </div>
+      </header>
+
+      <!-- GAME OVER BANNER -->
+      <div
+        class="game-over-banner"
+        *ngIf="isGameOver()"
+        [class.victory]="game()?.outcome === 'Victory'"
+        [class.defeat]="game()?.outcome !== 'Victory'"
+      >
+        <h2>
+          {{ game()?.outcome === 'Victory' ? 'VICTORY' : 'DEFEAT' }}
+        </h2>
+
+        <p *ngIf="game()?.outcome === 'Victory'">
+          {{ playerCountryName() }} has conquered the world.
+        </p>
+
+        <p *ngIf="game()?.outcome !== 'Victory'">
+          {{ playerCountryName() }} has lost every country it controlled.
+        </p>
+
+        <div class="game-over-actions">
+          <a class="attack-button" routerLink="/dashboard">Back to Dashboard</a>
+          <a class="attack-button" routerLink="/game/country-selection">New Game</a>
+        </div>
+      </div>
+
+      <!-- PUBLIC VIEW NOTICE -->
+      <div class="public-view-notice" *ngIf="!isGameOwner()">
+        <h3>View-Only Mode</h3>
+        <p>
+          You are watching this campaign as a visitor.
+          Only the campaign owner can control the game.
+        </p>
+      </div>
+
+      <!-- CAMPAIGN STATUS -->
+      <section class="status-panel">
+        <div class="status-item">
+          <span>CAMPAIGN STATUS</span>
+          <strong>{{ game()?.status ?? 'In Progress' }}</strong>
+        </div>
+
+        <div class="status-item">
+          <span>YOUR COUNTRY</span>
+          <strong>{{ playerCountryName() }}</strong>
+        </div>
+      </section>
+
+      <!-- COUNTRIES -->
+      <section class="countries-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR WORLD</p>
+            <h2>Countries</h2>
+          </div>
+
+          <span class="country-count">{{ countries().length }} nations</span>
+        </div>
+
+        <div *ngIf="countries().length === 0" class="empty-state">
+          <p>The campaign loaded, but no countries were found in the response.</p>
+        </div>
+
+        <!-- TURN STATUS -->
+        <div class="turn-status" *ngIf="game() as currentGame">
+          <h2>Round {{ currentGame.round }}</h2>
+
+          <ng-container *ngIf="!isGameOver()">
+            <p>
+              <strong>Current Turn:</strong>
+              {{ getControllerCountryName(currentGame.currentTurnControllerId) }}
+            </p>
+
+            <p *ngIf="currentGame.currentTurnControllerId === currentGame.playerCountryId">
+              It is your turn. You can manage your reinforcements and attack.
+            </p>
+
+            <p *ngIf="currentGame.currentTurnControllerId !== currentGame.playerCountryId">
+              An opponent is taking their turn. Advance the turn when ready.
+            </p>
+          </ng-container>
+
+          <p *ngIf="isGameOver()">This campaign has ended.</p>
+        </div>
+
+        <!-- COUNTRY CARDS -->
+        <div *ngIf="countries().length > 0" class="country-grid">
+          <article *ngFor="let country of countries()" class="country-card">
+            <div class="country-top">
+              <span class="country-indicator"></span>
+              <span class="continent">{{ country.continent }}</span>
+            </div>
+
+            <h3>{{ country.name }}</h3>
+
+            <p
+              class="conquered-label"
+              *ngIf="country.controllerCountryId &&
+                     country.controllerCountryId !== country.countryId"
+            >
+              Conquered by:
+              <strong>{{ getControllerCountryName(country.controllerCountryId) }}</strong>
+            </p>
+
+            <div class="country-stat">
+              <span>SOLDIERS</span>
+              <strong>{{ country.soldiers ?? country.soldierCount ?? 0 }}</strong>
+            </div>
+
+            <div class="country-stat" *ngIf="country.populationMillions != null">
+              <span>POPULATION</span>
+              <strong>{{ country.populationMillions | number:'1.0-1' }}M</strong>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- REINFORCEMENTS (hidden when the game is over) -->
+      <section
+        class="attack-section"
+        *ngIf="isGameOwner() && !isGameOver() && game() as currentGame"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MILITARY MANAGEMENT</p>
+            <h2>Allocate Reinforcements</h2>
+          </div>
+        </div>
+
+        <p>Available soldiers: <strong>{{ currentGame.reinforcementsAvailable ?? 0 }}</strong></p>
+        <p>Soldiers allocated: <strong>{{ totalAllocatedReinforcements() }}</strong></p>
+        <p>Soldiers remaining: <strong>{{ remainingReinforcements() }}</strong></p>
+
+        <div *ngIf="playerControlledCountries().length === 0">
+          <p>You do not currently control any countries.</p>
+        </div>
+
+        <div
+          class="reinforcement-country"
+          *ngFor="let country of playerControlledCountries()"
+        >
+          <label [for]="'reinforcements-' + country.countryId">
+            {{ country.name }} — {{ country.soldiers }} soldiers
+          </label>
+
+          <input
+            type="number"
+            [id]="'reinforcements-' + country.countryId"
+            min="0"
+            step="1"
+            [value]="reinforcementAllocations()[country.countryId] ?? 0"
+            (input)="updateReinforcementAllocation(
+              country.countryId,
+              +$any($event.target).value
+            )"
+            [disabled]="
+              isAllocatingReinforcements() ||
+              currentGame.currentTurnControllerId !== currentGame.playerCountryId ||
+              currentGame.reinforcementsAvailable <= 0
+            "
+          />
+        </div>
+
+        <button
+          type="button"
+          class="attack-button"
+          (click)="allocateReinforcements()"
+          [disabled]="
+            isAllocatingReinforcements() ||
+            currentGame.currentTurnControllerId !== currentGame.playerCountryId ||
+            currentGame.reinforcementsAvailable <= 0 ||
+            totalAllocatedReinforcements() !== currentGame.reinforcementsAvailable
+          "
+        >
+          {{ isAllocatingReinforcements() ? 'Allocating Soldiers...' : 'Confirm Reinforcements' }}
+        </button>
+      </section>
+
+      <!-- CONQUEST SOLDIER TRANSFER (only while a transfer is pending) -->
+      <section
+        class="attack-section conquest-transfer-section"
+        *ngIf="isGameOwner() && !isGameOver() && game()?.conquestTransferPending && game() as currentGame"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">TERRITORY CAPTURED</p>
+            <h2>Transfer Conquest Soldiers</h2>
+          </div>
+        </div>
+
+        <p>
+          You have conquered a country! Transfer soldiers from your attacking
+          country into the newly conquered territory to complete the conquest.
+        </p>
+
+        <div class="status-item">
+          <span>CONQUEST BONUS</span>
+          <strong>{{ currentGame.conquestBonusAvailable ?? 0 }} soldiers</strong>
+        </div>
+
+        <div class="attack-field conquest-transfer-field">
+          <label for="soldiersToTransfer">Soldiers to transfer</label>
+
+          <input
+            id="soldiersToTransfer"
+            type="number"
+            min="1"
+            step="1"
+            [value]="soldiersToTransfer()"
+            (input)="soldiersToTransfer.set(+$any($event.target).value)"
+            [disabled]="isTransferringConquestSoldiers()"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="attack-button"
+          (click)="transferConquestSoldiers()"
+          [disabled]="isTransferringConquestSoldiers()"
+        >
+          {{ isTransferringConquestSoldiers() ? 'Completing Conquest...' : 'Confirm Soldier Transfer' }}
+        </button>
+
+        <p class="attack-error" *ngIf="attackErrorMessage()">
+          {{ attackErrorMessage() }}
+        </p>
+      </section>
+
+      <!-- ORDINARY TROOP TRANSFER -->
+      <section
+        class="attack-section"
+        *ngIf="isGameOwner() && !isGameOver() && game() as currentGame"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MILITARY MANAGEMENT</p>
+            <h2>Transfer Soldiers</h2>
+          </div>
+        </div>
+
+        <p>Move soldiers between countries you control.</p>
+
+        <div class="attack-controls">
+
+          <div class="attack-field">
+            <label for="transferSource">Source Country</label>
+
+            <select
+              id="transferSource"
+              [value]="selectedTransferSourceId()"
+              (change)="selectedTransferSourceId.set($any($event.target).value)"
+              [disabled]="
+                isTransferringSoldiers() ||
+                currentGame.currentTurnControllerId !== currentGame.playerCountryId ||
+                currentGame.battleInProgress ||
+                currentGame.conquestTransferPending
+              "
+            >
+              <option value="">Select source country</option>
+              <option
+                *ngFor="let country of playerControlledCountries()"
+                [value]="country.countryId"
+              >
+                {{ country.name }} — {{ country.soldiers }} soldiers
+              </option>
+            </select>
+          </div>
+
+          <div class="attack-field">
+            <label for="transferDestination">Destination Country</label>
+
+            <select
+              id="transferDestination"
+              [value]="selectedTransferDestinationId()"
+              (change)="selectedTransferDestinationId.set($any($event.target).value)"
+              [disabled]="
+                isTransferringSoldiers() ||
+                currentGame.currentTurnControllerId !== currentGame.playerCountryId ||
+                currentGame.battleInProgress ||
+                currentGame.conquestTransferPending
+              "
+            >
+              <option value="">Select destination country</option>
+              <option
+                *ngFor="let country of playerControlledCountries()"
+                [value]="country.countryId"
+                [disabled]="country.countryId === selectedTransferSourceId()"
+              >
+                {{ country.name }} — {{ country.soldiers }} soldiers
+              </option>
+            </select>
+          </div>
+
+          <div class="attack-field">
+            <label for="soldiersToMove">Soldiers to Transfer</label>
+
+            <input
+              id="soldiersToMove"
+              type="number"
+              min="1"
+              step="1"
+              [value]="soldiersToMove()"
+              (input)="soldiersToMove.set(+$any($event.target).value)"
+              [disabled]="
+                isTransferringSoldiers() ||
+                currentGame.currentTurnControllerId !== currentGame.playerCountryId ||
+                currentGame.battleInProgress ||
+                currentGame.conquestTransferPending
+              "
+            />
+          </div>
+
+          <button
+            type="button"
+            class="attack-button"
+            (click)="transferSoldiers()"
+            [disabled]="
+              isTransferringSoldiers() ||
+              currentGame.currentTurnControllerId !== currentGame.playerCountryId ||
+              currentGame.battleInProgress ||
+              currentGame.conquestTransferPending
+            "
+          >
+            {{ isTransferringSoldiers() ? 'Transferring Soldiers...' : 'Confirm Troop Transfer' }}
+          </button>
+
+        </div>
+
+        <p *ngIf="transferErrorMessage()" class="attack-error">
+          {{ transferErrorMessage() }}
+        </p>
+      </section>
+
+      <!-- ATTACK SECTION -->
+      <section class="attack-section" *ngIf="isGameOwner() && !isGameOver()">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MILITARY OPERATIONS</p>
+            <h2>Launch an Attack</h2>
+          </div>
+        </div>
+
+        <div class="attack-controls">
+
+          <div class="attack-field">
+            <label for="attackerCountry">Attacking Country</label>
+
+            <select
+              id="attackerCountry"
+              [value]="selectedAttackerCountryId()"
+              (change)="selectedAttackerCountryId.set($any($event.target).value)"
+            >
+              <option value="">Select your country</option>
+              <option
+                *ngFor="let country of playerControlledCountries()"
+                [value]="country.countryId"
+              >
+                {{ country.name }} — {{ country.soldiers }} soldiers
+              </option>
+            </select>
+          </div>
+
+          <div class="attack-field">
+            <label for="defenderCountry">Enemy Country</label>
+
+            <select
+              id="defenderCountry"
+              [value]="selectedDefenderCountryId()"
+              (change)="selectedDefenderCountryId.set($any($event.target).value)"
+            >
+              <option value="">Select an enemy</option>
+              <option
+                *ngFor="let country of enemyCountries()"
+                [value]="country.countryId"
+              >
+                {{ country.name }} — {{ country.soldiers }} soldiers
+              </option>
+            </select>
+          </div>
+
+          <button
+            type="button"
+            class="attack-button"
+            [disabled]="isAttacking()"
+            (click)="attackCountry(true)"
+          >
+            {{ isAttacking() ? 'Processing Battle...' : 'Attack' }}
+          </button>
+
+          <button
+            type="button"
+            (click)="advanceTurn()"
+            [disabled]="isAdvancingTurn() || isAttacking()"
+          >
+            {{ isAdvancingTurn() ? 'Advancing Turn...' : 'Advance Turn' }}
+          </button>
+
+        </div>
+
+        <p *ngIf="attackErrorMessage()" class="attack-error">
+          {{ attackErrorMessage() }}
+        </p>
+
+
+<!-- BATTLE RESULTS -->
+<div *ngIf="battleResult()" class="battle-result">
+
+  <div class="battle-report-header">
+    <div>
+      <p class="eyebrow">MILITARY OPERATIONS</p>
+      <h3>Battle Report</h3>
+    </div>
+
+    <span
+      class="battle-status"
+      [class.conquered]="battleResult().defenderConquered"
+    >
+      {{ battleResult().defenderConquered ? 'TERRITORY CAPTURED' : 'BATTLE IN PROGRESS' }}
+    </span>
+  </div>
+
+  <!-- BATTLE COMMENTARY -->
+  <div class="battle-commentary" *ngIf="battleResult().message">
+    <span class="commentary-label">FIELD REPORT</span>
+    <p>{{ battleResult().message }}</p>
+  </div>
+
+  <!-- DICE ROLLS -->
+  <div class="battle-forces">
+
+    <!-- ATTACKER -->
+    <div class="battle-force attacker-force">
+      <div class="force-heading">
+        <span class="force-indicator"></span>
+        <h4>ATTACKING FORCE</h4>
+      </div>
+
+      <div class="dice-container" *ngIf="battleResult().attackerDice?.length">
+        <div
+          class="battle-die"
+          *ngFor="let die of battleResult().attackerDice; let i = index"
+          [style.animation-delay]="(i * 0.15) + 's'"
+        >
+          {{ die }}
+        </div>
+      </div>
+
+      <p class="dice-empty" *ngIf="!battleResult().attackerDice?.length">
+        No dice recorded
+      </p>
+
+      <div class="force-casualties">
+        <span>CASUALTIES</span>
+        <strong>
+          {{ battleResult().attackerLosses ?? 0 }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- DEFENDER -->
+    <div class="battle-force defender-force">
+      <div class="force-heading">
+        <span class="force-indicator"></span>
+        <h4>DEFENDING FORCE</h4>
+      </div>
+
+      <div class="dice-container" *ngIf="battleResult().defenderDice?.length">
+        <div
+          class="battle-die defender-die"
+          *ngFor="let die of battleResult().defenderDice; let i = index"
+          [style.animation-delay]="(i * 0.15) + 's'"
+        >
+          {{ die }}
+        </div>
+      </div>
+
+      <p class="dice-empty" *ngIf="!battleResult().defenderDice?.length">
+        No dice recorded
+      </p>
+
+      <div class="force-casualties">
+        <span>CASUALTIES</span>
+        <strong>
+          {{ battleResult().defenderLosses ?? 0 }}
+        </strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BATTLE OUTCOME -->
+  <div
+    class="battle-outcome"
+    [class.outcome-victory]="battleResult().defenderConquered"
+  >
+    <span>{{ battleResult().defenderConquered ? 'CONQUEST SUCCESSFUL' : 'NO CONQUEST' }}</span>
+
+    <p>
+      {{
+        battleResult().defenderConquered
+          ? 'The defending territory has fallen under new control.'
+          : 'The defending territory remains unconquered.'
+      }}
+    </p>
+  </div>
+
+  <!-- BATTLE ACTIONS -->
+  <div class="battle-actions" *ngIf="!battleResult().defenderConquered">
+
+    <button
+      type="button"
+      class="attack-button"
+      [disabled]="isAttacking()"
+      (click)="attackCountry(true)"
+    >
+      {{ isAttacking() ? 'Processing Battle...' : 'Continue Battle' }}
+    </button>
+
+    <button
+      type="button"
+      class="stop-attack-button"
+      [disabled]="isAttacking()"
+      (click)="attackCountry(false)"
+    >
+      Stop Attacking
+    </button>
+
+  </div>
+
+</div>
+
+      </section>
+
+      <!-- CAMPAIGN EVENT HISTORY -->
+      <div class="event-history-section">
+        <h2>Campaign History</h2>
+
+        <div *ngIf="events().length === 0" class="empty-events">
+          <p>No events have been recorded yet.</p>
+        </div>
+
+        <div
+          *ngFor="let event of events()"
+          class="event-item"
+          [ngClass]="'event-' + event.eventType"
+        >
+<div class="event-details">
+  <h3>{{ getEventTitle(event.eventType) }}</h3>
+
+  <p class="event-commentary">
+    {{ event.commentary || event.message }}
+  </p>
+
+  <small>Round {{ event.round }}</small>
+</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

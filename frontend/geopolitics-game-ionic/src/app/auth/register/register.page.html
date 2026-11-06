@@ -1,0 +1,90 @@
+<ion-content [fullscreen]="true" class="auth-page">
+  <div class="auth-container">
+    <a class="brand" routerLink="/home">
+      <span class="brand-icon">G</span>
+      <span>GEOPOLITICS</span>
+    </a>
+
+    <div class="auth-card">
+      <p class="eyebrow">YOUR CAMPAIGN BEGINS HERE</p>
+
+      <h1>Create your account</h1>
+
+      <p class="subtitle">
+        Establish your identity and prepare to lead a nation
+      </p>
+
+      <form (ngSubmit)="register()">
+
+        <ion-label position="stacked">Full Name</ion-label>
+        <ion-input
+          name="fullName"
+          type="text"
+          placeholder="Enter your full name"
+          [(ngModel)]="fullName"
+          required
+        ></ion-input>
+
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input 
+          name="username"
+          type="text"
+          placeholder="Choose a username"
+          [(ngModel)]="username"
+          required
+        ></ion-input>
+
+        <ion-label position="stacked">Email Address</ion-label>
+        <ion-input
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          [(ngModel)]="email"
+          required
+        ></ion-input>
+
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input
+          name="password"
+          type="password"
+          placeholder="Create a password"
+          [(ngModel)]="password"
+          required
+          minlength="8"
+        ></ion-input>
+
+        <ion-label position="stacked">Confirm Password</ion-label>
+        <ion-input 
+          name="confirmPassword"
+          type="password"
+          placeholder="Re-enter your password"
+          [(ngModel)]="confirmPassword"
+          required
+          minlength="8"
+        ></ion-input>
+
+
+<ion-button
+  type="submit"
+  expand="block"
+  class="primary-button"
+  [disabled]="isLoading"
+>
+  {{ isLoading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT' }}
+  <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+</ion-button>
+
+      </form>
+
+
+      <p class="auth-switch">
+        Already have an account?
+        <a routerLink="/auth/login">Sign in</a>
+      </p>
+    </div>
+
+    <a class="back-link" routerLink="/home">
+      Back to home
+    </a>
+  </div>
+</ion-content>

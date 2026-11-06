@@ -1,0 +1,127 @@
+<ion-header>
+  <header class="top-bar">
+    <a class="brand" routerLink="/home">
+      <span class="brand-icon">G</span>
+      <span>GEOPOLITICS</span>
+    </a>
+
+    <div class="header-actions">
+      <a class="nav-link" routerLink="/dashboard">
+        DASHBOARD
+      </a>
+
+      <button class="logout-button" (click)="logout()">
+        SIGN OUT
+      </button>
+    </div>
+  </header>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="page-heading">
+    <h1>My Games</h1>
+    <p>View your previous campaigns and their outcomes.</p>
+  </div>
+
+<!-- GAME FILTERS -->
+<div class="filter-container">
+
+  <button
+    class="filter-all"
+    [class.active]="selectedFilter() === 'All'"
+    (click)="setFilter('All')">
+    All Games <span>{{ games().length }}</span>
+  </button>
+
+  <button
+    class="filter-won"
+    [class.active]="selectedFilter() === 'Won'"
+    (click)="setFilter('Won')">
+    Won
+    <span>{{ games().filter(game => getGameStatus(game) === 'Won').length }}</span>
+  </button>
+
+  <button
+    class="filter-lost"
+    [class.active]="selectedFilter() === 'Lost'"
+    (click)="setFilter('Lost')">
+    Lost
+    <span>{{ games().filter(game => getGameStatus(game) === 'Lost').length }}</span>
+  </button>
+
+  <button
+    class="filter-progress"
+    [class.active]="selectedFilter() === 'In Progress'"
+    (click)="setFilter('In Progress')">
+    In Progress
+    <span>{{ games().filter(game => getGameStatus(game) === 'In Progress').length }}</span>
+  </button>
+
+</div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading()" class="message-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading your games...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!isLoading() && errorMessage()" class="message-container">
+    <p>{{ errorMessage() }}</p>
+    <ion-button (click)="loadGames()">Try Again</ion-button>
+  </div>
+
+  <!-- Empty History -->
+  <div *ngIf="!isLoading() && !errorMessage() && games().length === 0"
+       class="message-container">
+    <h2>No games yet</h2>
+    <p>Your previous campaigns will appear here.</p>
+  </div>
+
+  <!-- Game List -->
+  <div *ngIf="!isLoading() && !errorMessage() && filteredGames().length > 0"
+       class="games-list">
+
+    <ion-card
+      *ngFor="let game of filteredGames()"
+      button="true"
+      (click)="openGame(game.id)">
+
+      <ion-card-header>
+        <div class="game-card-heading">
+          <ion-card-title>
+            {{ getPlayerCountryName(game) }}
+          </ion-card-title>
+
+          <ion-badge
+            [color]="getGameStatus(game) === 'Won' ? 'success' :
+                     getGameStatus(game) === 'Lost' ? 'danger' : 'primary'">
+            {{ getGameStatus(game) }}
+          </ion-badge>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Round:</strong> {{ game.round }}</p>
+        <p><strong>Started:</strong> {{ game.createdAt | date:'medium' }}</p>
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
+
+  <!-- NO FILTER RESULTS -->
+<div
+  *ngIf="!isLoading() && !errorMessage()
+         && games().length > 0
+         && filteredGames().length === 0"
+  class="message-container">
+
+  <h2>No {{ selectedFilter() }} games</h2>
+
+  <p>There are no campaigns matching this filter.</p>
+
+</div>
+
+</ion-content>

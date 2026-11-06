@@ -1,0 +1,80 @@
+<ion-content [fullscreen]="true" class="dashboard-page">
+  <div class="dashboard-wrapper">
+
+    <header class="top-bar">
+      <a class="brand" routerLink="/home">
+        <span class="brand-icon">G</span>
+        <span>GEOPOLITICS</span>
+      </a>
+
+<div class="header-actions">
+  <a class="history-link" routerLink="/game-history">
+    GAME HISTORY
+  </a>
+
+  <button class="logout-button" (click)="logout()">
+    SIGN OUT
+  </button>
+</div>
+    </header>
+
+
+    <main class="dashboard-content">
+      <div class="eyebrow">
+        <span class="status-dot"></span>
+        COMMAND CENTRE
+      </div>
+
+      <h1>
+        YOUR WORLD. <br/>
+        <span>YOUR RULES.</span>
+      </h1>
+
+      <p class="dashboard-description">
+        Every nation has ambitions. Every decision has consequences.
+        Build your power, command your armies, and shape the future.
+      </p>
+
+      <section class="campaign-card">
+        <div class="card-label">YOUR NEXT MOVE</div>
+
+        <h2>Begin your campaign</h2>
+
+        <p>
+          Choose your nation, strengthen your military, and compete for control
+          of the world
+        </p>
+
+        <ion-button
+          expand="block"
+          class="primary-button"
+          (click)="startCampaign()"
+        >
+          START NEW CAMPAIGN
+          <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+      </section>
+
+      <div class="dashboard-facts">
+        <div>
+          <strong>10</strong>
+          <span>NATIONS TO CONTROL</span>
+        </div>
+
+        <div>
+          <strong>01</strong>
+          <span>ULTIMATE OBJECTIVE</span>
+        </div>
+
+        <div>
+          <strong>Infinite</strong>
+          <span>STRATEGIES TO EXPLORE</span>
+        </div>
+      </div>
+    </main>
+
+    <footer class="dashboard-footer">
+      EVERY MOVE HAS CONSEQUENCES
+    </footer>
+  </div>
+</ion-content>

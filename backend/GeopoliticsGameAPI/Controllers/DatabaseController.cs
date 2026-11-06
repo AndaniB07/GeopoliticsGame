@@ -1,5 +1,6 @@
 ﻿using GeopoliticsGameAPI.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GeopoliticsGameAPI.Controllers
 {
@@ -17,7 +18,7 @@ namespace GeopoliticsGameAPI.Controllers
         }
 
 
-
+        [Authorize]
         [HttpGet("test")]
         public async Task<IActionResult> TestConnection()
         {

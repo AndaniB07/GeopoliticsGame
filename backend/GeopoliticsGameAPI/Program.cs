@@ -72,7 +72,6 @@ builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddHttpClient<BattleCommentaryService>();
 builder.Services.AddScoped<GameService>();
 builder.Services.AddScoped<AuthService>();
-builder.Services.AddHttpClient<OpenAIService>();
 
 
 // Allow the Ionic/Angular development server and deployed website to call this API

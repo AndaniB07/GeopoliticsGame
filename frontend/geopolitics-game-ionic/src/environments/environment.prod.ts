@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://YOUR-RENDER-BACKEND-URL.onrender.com/api'
+  apiUrl: 'https://geopolitics-game-api-cydhaqgfcpbub9d0.centralindia-01.azurewebsites.net/api'
 };
